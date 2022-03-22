@@ -41,19 +41,8 @@ stages {
       archiveArtifacts 'target/*.war'
       }
  }
- stage('Sonarqube') {
-   environment {
-        scannerHome = tool 'sonarqube'
-    }
-    steps {
-        withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
-        }
-        timeout(time: 10, unit: 'MINUTES') {
-          //  waitForQualityGate abortPipeline: false
-        }
-    }
-}
+ // Sonar removed
+    
      stage('Artifact upload') {
       steps {
      nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/helloworld.war']], mavenCoordinate: [artifactId: 'hello-world-servlet-example', groupId: 'com.geekcap.vmturbo', packaging: 'war', version: '$BUILD_NUMBER']]]
