@@ -16,7 +16,7 @@ stages {
 
       // Get the Maven tool.
      
- // ** NOTE: This 'M3' Maven tool must be configured
+ // ** NOTE: This 'Maven' Maven tool must be configured
  
      // **       in the global configuration.   
      }
@@ -41,8 +41,19 @@ stages {
       archiveArtifacts 'target/*.war'
       }
  }
- // Sonar removed
-    
+ stage('Sonarqube') {
+    environment {
+        scannerHome = tool 'sonarqube'
+    }
+    steps {
+        withSonarQubeEnv('sonarqube') {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+  //      timeout(time: 10, unit: 'MINUTES') {
+ //           waitForQualityGate abortPipeline: true
+  //      }
+    }
+}
      stage('Artifact upload') {
       steps {
      nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/helloworld.war']], mavenCoordinate: [artifactId: 'hello-world-servlet-example', groupId: 'com.geekcap.vmturbo', packaging: 'war', version: '$BUILD_NUMBER']]]
