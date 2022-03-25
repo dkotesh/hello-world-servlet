@@ -3,29 +3,29 @@
   become: true
   tasks:
   - name: Stop Tomcat
-    service: name=tomcatstart state=stopped
+    service: name=tomcat state=stopped
   - name: Check that war file exist
     stat:
-    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
+      path: /usr/share/tomcat/webapps/hello-world-servlet-example.war
     register: stat_result
 
   - name: Delete the war file, if it exist already
     file:
-    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
-    state: absent
+      path: /usr/share/tomcat/webapps/hello-world-servlet-example.war
+      state: absent
     when: stat_result.stat.exists == True
-  - name: Check that hello-world-servlet-example dir exist
+  - name: Check that GAMEOFLIFE dir exist
     stat:
-    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
+      path: /usr/share/tomcat/webapps/hello-world-servlet-example
     register: stat_result
-  - name: Delete the hello-world-servlet-example dir, if it exist already
+  - name: Delete the GAMEOFLIFE dir, if it exist already
     file:
-    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
-    state: absent
+      path: /usr/share/tomcat/webapps/hello-world-servlet-example
+      state: absent
     when: stat_result.stat.exists == True
   - name: Deploy War File
     get_url:
-       url: http://3.19.222.31:8081/nexus/service/local/artifact/maven/redirect?r=releases&g=com.geekcap.vmturbo&a=hello-world-servlet-example&p=war&v=LATEST
-       dest: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
+       url: http://3.19.222.31:8081/nexus/nexus/service/local/artifact/maven/redirect?r=releases&g=com.geekcap.vmturbo&a=hello-world-servlet-example&p=war&v=LATEST
+       dest: /usr/share/tomcat/webapps/hello-world-servlet-example.war
   - name: Start Tomcat
     service: name=tomcat state=started
