@@ -14,11 +14,11 @@
       path: /root/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
       state: absent
     when: stat_result.stat.exists == True
-  - name: Check that GAMEOFLIFE dir exist
+  - name: Check that hello-world-servlet-example dir exist
     stat:
       path: /root/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
     register: stat_result
-  - name: Delete the GAMEOFLIFE dir, if it exist already
+  - name: Delete the hello-world-servlet-example dir, if it exist already
     file:
       path: /root/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
       state: absent
