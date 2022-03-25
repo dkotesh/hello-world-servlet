@@ -6,22 +6,22 @@
     service: name=tomcatstart state=stopped
   - name: Check that war file exist
     stat:
-      path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
+    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
     register: stat_result
 
   - name: Delete the war file, if it exist already
     file:
-      path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
-      state: absent
+    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example.war
+    state: absent
     when: stat_result.stat.exists == True
   - name: Check that hello-world-servlet-example dir exist
     stat:
-      path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
+    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
     register: stat_result
   - name: Delete the hello-world-servlet-example dir, if it exist already
-   file:
-      path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
-      state: absent
+    file:
+    path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
+    state: absent
     when: stat_result.stat.exists == True
   - name: Deploy War File
     get_url:
