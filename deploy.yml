@@ -18,10 +18,10 @@
     stat:
       path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
     register: stat_result
-  //- name: Delete the hello-world-servlet-example dir, if it exist already
-   // file:
-    //  path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
-     // state: absent
+  - name: Delete the hello-world-servlet-example dir, if it exist already
+   file:
+      path: /usr/share/apache-tomcat-8.5.76/webapps/hello-world-servlet-example
+      state: absent
     when: stat_result.stat.exists == True
   - name: Deploy War File
     get_url:
